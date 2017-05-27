@@ -8,7 +8,7 @@
 
 		<div class="ui white massive main menu">
 			<div class="ui container">
-				<a href="#" class="header item">
+				<a href="/" class="header item">
 					HFUT直播平台
 				</a>
 				<div class="right menu">
@@ -41,11 +41,11 @@
 					for(var i = 0; i < a.length; ++i)
 						content += "<div class='column'>"
 							+ "<div class='ui card'>" +
-							"<a class='image' href='#'>"+
+							"<a class='image' href='player.html?room="+ a[i] + "'>"+
 							"<img src='live/"+ a[i] + ".jpg'  title='"+ a[i] +"'>" +
 							"</a>" +
 							'<div class="content">' +
-							'<a class="header" href="#">'+ a[i] +'</a>' +
+							'<a class="header" href=player.html?room=' + a[i] + '>'+ a[i] +'</a>' +
 							'</div>' +
 							"</div>" +
 							"</div>";
