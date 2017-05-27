@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>校内直播平台 By Netcan</title>
+		<link rel="stylesheet" href="css/semantic.min.css" type="text/css" media="all" />
+	</head>
+	<body>
+
+		<div class="ui white massive main menu">
+			<div class="ui container">
+				<a href="#" class="header item">
+					HFUT直播平台
+				</a>
+				<div class="right menu">
+					<a class="item" id="#onlineCnt">
+						大厅在线人数：开发中...
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui container">
+			<div class="ui raised segment">
+				<p>平台正在开发中，敬请期待！
+			</div>
+			<div id="room" class ="ui four column grid">
+			</div>
+		</div>
+
+		<script src="js/jquery.min.js"></script>
+		<script src="js/semantic.min.js"></script>
+
+		<script>
+			var api = "api.php";
+			$.ajax({
+				url: api + "?getRoom",
+				type: "GET",
+				dataType: "json",
+				success: function(a) {
+					var content = "";
+					for(var i = 0; i < a.length; ++i)
+						content += "<div class='column'>"
+							+ "<div class='ui card'>" +
+							"<a class='image' href='#'>"+
+							"<img src='live/"+ a[0] + ".jpg'  title='"+ a[0] +"'>" +
+							"</a>" +
+							'<div class="content">' +
+							'<a class="header" href="#">'+ a[0] +'</a>' +
+							'</div>' +
+							"</div>" +
+							"</div>";
+
+					$('#room').html(content);
+					console.log(content);
+				}
+			});
+		</script>
+	</body>
+
+</html>
