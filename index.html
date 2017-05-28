@@ -21,7 +21,14 @@
 
 		<div class="ui container">
 			<div class="ui raised segment">
-				<p>平台正在开发中，敬请期待！
+				<p>平台正在开发中，敬请期待！大厅每5s自动刷新一下，无需手动刷新！
+				<p>TODO
+				<ul>
+					<li>打赏</li>
+					<li>在线人数</li>
+					<li>弹幕</li>
+					<li>点播</li>
+				</ul>
 			</div>
 			<div id="room" class ="ui four column grid">
 			</div>
@@ -32,28 +39,32 @@
 
 		<script>
 			var api = "api.php";
-			$.ajax({
-				url: api + "?getRoom",
-				type: "GET",
-				dataType: "json",
-				success: function(a) {
-					var content = "";
-					for(var i = 0; i < a.length; ++i)
-						content += "<div class='column'>"
-							+ "<div class='ui card'>" +
-							"<a class='image' href='player.html?room="+ a[i] + "'>"+
-							"<img src='live/"+ a[i] + ".jpg'  title='"+ a[i] +"'>" +
-							"</a>" +
-							'<div class="content">' +
-							'<a class="header" href=player.html?room=' + a[i] + '>'+ a[i] +'</a>' +
-							'</div>' +
-							"</div>" +
-							"</div>";
+			function getRoom() {
+				$.ajax({
+					url: api + "?getRoom",
+					type: "GET",
+					dataType: "json",
+					success: function(a) {
+						var content = "";
+						for(var i = 0; i < a.length; ++i)
+							content += "<div class='column'>"
+								+ "<div class='ui card'>" +
+								"<a class='image' href='player.html?room="+ a[i] + "'>"+
+								"<img src='live/"+ a[i] + ".jpg'  title='"+ a[i] +"'>" +
+								"</a>" +
+								'<div class="content">' +
+								'<a class="header" href=player.html?room=' + a[i] + '>'+ a[i] +'</a>' +
+								'</div>' +
+								"</div>" +
+								"</div>";
 
-					$('#room').html(content);
-					console.log(content);
-				}
-			});
+						$('#room').html(content);
+						console.log(content);
+					}
+				});
+			}
+			getRoom();
+			setInterval(getRoom, 5000);
 		</script>
 	</body>
 
