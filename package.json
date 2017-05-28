@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "semantic-ui": "^2.2.10",
+    "video.js": "^5.19.2",
+    "videojs-contrib-hls": "^5.5.3"
+  }
+}

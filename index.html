@@ -2,7 +2,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>校内直播平台 By Netcan</title>
-		<link rel="stylesheet" href="css/semantic.min.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="node_modules/semantic-ui/dist/semantic.min.css" type="text/css" media="all" />
 	</head>
 	<body>
 
@@ -34,8 +34,8 @@
 			</div>
 		</div>
 
-		<script src="js/jquery.min.js"></script>
-		<script src="js/semantic.min.js"></script>
+		<script src="node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="node_modules/semantic-ui/dist/semantic.min.js"></script>
 
 		<script>
 			var api = "api.php";
@@ -49,8 +49,8 @@
 						for(var i = 0; i < a.length; ++i)
 							content += "<div class='column'>"
 								+ "<div class='ui card'>" +
-								"<a class='image' href='player.html?room="+ a[i] + "'>"+
-								"<img src='live/"+ a[i] + ".jpg'  title='"+ a[i] +"'>" +
+								"<a class='fluid image' href='player.html?room="+ a[i] + "'>"+
+								"<img class='fluid image' src='live/"+ a[i] + ".jpg'  title='"+ a[i] +"'>" +
 								"</a>" +
 								'<div class="content">' +
 								'<a class="header" href=player.html?room=' + a[i] + '>'+ a[i] +'</a>' +
@@ -59,7 +59,7 @@
 								"</div>";
 
 						$('#room').html(content);
-						console.log(content);
+						// console.log(content);
 					}
 				});
 			}

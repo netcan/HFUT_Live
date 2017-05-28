@@ -2,8 +2,8 @@
 	<head>
 		<meta charset="utf-8">
 		<title>校内直播平台 By Netcan</title>
-		<link rel="stylesheet" href="css/semantic.min.css" type="text/css" media="all" />
-		<link href="//cdn.bootcss.com/video.js/6.1.0/video-js.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="node_modules/semantic-ui/dist/semantic.min.css" type="text/css" media="all" />
+		<link href="node_modules/video.js/dist/video-js.min.css" rel="stylesheet">
 	</head>
 	<body>
 		<div class="ui white massive main menu">
@@ -21,15 +21,15 @@
 
 		<div class="ui container">
 			<h2>当前房间：<span id="curRoom"></span></h2>
-			<video id=player width=1024 height=576 class="video-js vjs-default-skin" controls>
+			<video id=player class="video-js vjs-default-skin" controls data-setup='{"fluid": true, "aspectRatio": "16:9"}'>
 				<source src="" type="application/x-mpegURL">
 			</video>
 		</div>
 
-		<script src="js/jquery.min.js"></script>
-		<script src="js/semantic.min.js"></script>
-		<script src="//cdn.bootcss.com/video.js/6.1.0/video.min.js"></script>
-		<script src="//cdn.bootcss.com/videojs-contrib-hls/5.5.3/videojs-contrib-hls.min.js"></script>
+		<script src="node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="node_modules/semantic-ui/dist/semantic.min.js"></script>
+		<script src="node_modules/video.js/dist/video.min.js"></script>
+		<script src="node_modules/videojs-contrib-hls/dist/videojs-contrib-hls.min.js"></script>
 
 		<script>
 			function getParameterByName(name, url) {
