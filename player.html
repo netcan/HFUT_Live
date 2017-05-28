@@ -4,6 +4,7 @@
 		<title>校内直播平台 By Netcan</title>
 		<link rel="stylesheet" href="node_modules/semantic-ui/dist/semantic.min.css" type="text/css" media="all" />
 		<link href="node_modules/video.js/dist/video-js.min.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
 	</head>
 	<body>
 		<div class="ui white massive main menu">
@@ -21,9 +22,37 @@
 
 		<div class="ui container">
 			<h2>当前房间：<span id="curRoom"></span></h2>
-			<video id=player class="video-js vjs-default-skin" controls data-setup='{"fluid": true, "aspectRatio": "16:9"}'>
-				<source src="" type="application/x-mpegURL">
-			</video>
+			<div class="ui grid">
+				<div class="twelve wide column">
+					<div class="row">
+						<div id="danmu">
+							<video id=player class="video-js vjs-default-skin" controls data-setup='{"fluid": true, "aspectRatio": "16:9"}'>
+								<source src="" type="application/x-mpegURL">
+							</video>
+						</div>
+					</div>
+
+					<hr>
+					<div class="ui form">
+						<div class="fields">
+							<div class="three wide field">
+								<input type="text" name="name" id="userName" placeholder="昵称">
+							</div>
+							<div class="thirteen wide field">
+								<input type="text" name="content" id="danmuContent" placeholder="发送弹幕内容">
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="four wide column">
+					<div class="ui segment">
+						<div class="outmaxh" id="message">
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 		<script src="node_modules/jquery/dist/jquery.min.js"></script>
@@ -43,8 +72,12 @@
 				return decodeURIComponent(results[2].replace(/\+/g, " "));
 			}
 
-			var socket = io("http://172.18.72.13:2120");
+			// 登录
+			var danmu = "http://172.18.72.13";
+			// var danmu = "http://127.0.0.1";
+			var socket = io(danmu + ":2120");
 			var api = "api.php";
+			var room = getParameterByName('room');
 
 			$.ajax({
 				url: api + "?getUid",
@@ -56,7 +89,17 @@
 				}
 			});
 
-			// socket.on('new_msg', function(msg){alert(msg);});
+			// 弹幕事件
+			socket.on('new_msg', function(msg){
+				// alert(msg);
+				msg = JSON.parse(msg);
+				if(msg['channel'] == room) {
+					$('#message').append(
+							'<p>' + msg.datetime + '<br>' + msg.content
+					);
+				}
+				console.log(msg);
+			});
 
 			socket.on('update_online_count', function(online_stat){
 				online_stat = JSON.parse(online_stat);
@@ -65,13 +108,34 @@
 			});
 
 
-			var room = getParameterByName('room');
+			// 播放器
 			$('#player source').attr("src", "live/" + room + ".m3u8");
 			$('#curRoom').html(room);
 
 			var player = videojs('#player');
 			player.play();
 
+			// 弹幕
+			$('#danmuContent').keypress(function(e) {
+				if(e.which == 13) {
+					if(! $('#userName').val()) {
+						alert('请输入用户名！');
+					} else if(! $('#danmuContent').val()) {
+						alert('请输入内容！');
+					} else {
+						$.ajax({
+							url: api,
+							type: "GET",
+							data: {
+								send: $('#userName').val() + ": " + $('#danmuContent').val(),
+								channel: room
+							},
+							dataType: "json",
+						});
+						$('#danmuContent').val("");
+					}
+				}
+			});
 
 		</script>
 
