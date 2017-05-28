@@ -127,7 +127,14 @@
 				console.log(msg);
 			});
 
+			if(localStorage.userName) 
+				$('#userName').val(localStorage.userName);
+
 			window.setInterval(function() {
+				if($('#userName').val() && $('#userName').val() != localStorage.userName) {
+					localStorage.userName = $('#userName').val();
+				}
+
 				if($('#msgScroll').checkbox("is checked")) {
 					var elem = document.getElementById('message');
 					elem.scrollTop = elem.scrollHeight;
