@@ -1,8 +1,8 @@
 <?php
 
 $liveDir = './live/';
-// $danmuUrl = 'http://172.18.72.13:2121/';
-$danmuUrl = 'http://127.0.0.1:2121/';
+$danmuUrl = 'http://172.18.72.13:2121/';
+// $danmuUrl = 'http://127.0.0.1:2121/';
 session_start();
 
 function getRoom() {
