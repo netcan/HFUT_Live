@@ -48,6 +48,14 @@
 				</div>
 				<div class="four wide column">
 					<div class="ui segment">
+						<div class="ui toggle checkbox" id="msgScroll">
+							<input type="checkbox" tabindex="0" class="hidden">
+							<label>自动滚动</label>
+						</div>
+						<div class="ui toggle checkbox" id="danmuOn">
+							<input type="checkbox" tabindex="0" class="hidden">
+							<label>弹幕</label>
+						</div>
 						<div class="outmaxh" id="message">
 						</div>
 					</div>
@@ -92,6 +100,8 @@
 			});
 
 			// 弹幕事件
+			$('#msgScroll').checkbox("check");
+			$('#danmuOn').checkbox("check");
 			socket.on('new_msg', function(msg){
 				// alert(msg);
 				msg = JSON.parse(msg);
@@ -99,20 +109,31 @@
 					$('#message').append(
 							'<p>' + msg.datetime + '<br>' + msg.content
 					);
-					var item={
-						img:'', //图片
-						info:  msg.content.substr(msg.content.indexOf(':') + 2, msg.content.length - msg.content.indexOf('.') - 2), //文字
-						href:'', //链接
-						close: false, //显示关闭按钮
-						speed: 8, //延迟,单位秒,默认8
-						bottom:0, //距离底部高度,单位px,默认随机
-						color: "#fff", //颜色,默认白色
-						old_ie_color:'#000000', //ie低版兼容色,不能与网页背景相同,默认黑色
+
+					if($('#danmuOn').checkbox("is checked")) {
+						var item={
+							img:'', //图片
+							info:  msg.content.substr(msg.content.indexOf(':') + 2, msg.content.length - msg.content.indexOf('.') - 2), //文字
+							href:'', //链接
+							close: false, //显示关闭按钮
+							speed: 8, //延迟,单位秒,默认8
+							bottom:0, //距离底部高度,单位px,默认随机
+							color: "#fff", //颜色,默认白色
+							old_ie_color:'#000000', //ie低版兼容色,不能与网页背景相同,默认黑色
+						}
+						$('#danmu').barrager(item);
 					}
-					$('#danmu').barrager(item);
 				}
 				console.log(msg);
 			});
+
+			window.setInterval(function() {
+				if($('#msgScroll').checkbox("is checked")) {
+					var elem = document.getElementById('message');
+					elem.scrollTop = elem.scrollHeight;
+				}
+			}, 800);
+
 
 			socket.on('update_online_count', function(online_stat){
 				online_stat = JSON.parse(online_stat);
@@ -145,10 +166,12 @@
 							},
 							dataType: "json",
 						});
+
 						$('#danmuContent').val("");
 					}
 				}
 			});
+
 
 		</script>
 
