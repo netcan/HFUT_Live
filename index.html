@@ -13,7 +13,7 @@
 				</a>
 				<div class="right menu">
 					<a class="item" id="#onlineCnt">
-						大厅在线人数：开发中...
+						平台在线人数：<i class="home icon" id="roomHolder"></i>/<i class="user icon" id="onlineUser"></i>
 					</a>
 				</div>
 			</div>
@@ -60,6 +60,7 @@
 								"</div>";
 
 						$('#room').html(content);
+						$('#roomHolder').text(a.length);
 						// console.log(content);
 					}
 				});
@@ -71,10 +72,12 @@
 			var uid = '<?php echo session_id();?>';
 			socket.on('connect', function(){socket.emit('login', uid);});
 
-			socket.on('new_msg', function(msg){alert(msg);});
+			// socket.on('new_msg', function(msg){alert(msg);});
 
 			socket.on('update_online_count', function(online_stat){
-				console.log(online_stat);
+				online_stat = JSON.parse(online_stat);
+				$('#onlineUser').text(online_stat.online_count_now)
+				// console.log(online_stat);
 			});
 
 		</script>
