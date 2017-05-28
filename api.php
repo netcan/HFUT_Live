@@ -1,6 +1,8 @@
 <?php
 
 $liveDir = './live/';
+session_start();
+
 function getRoom() {
 	global $liveDir;
 	$m3u8 = glob($liveDir . '*.m3u8');
@@ -10,7 +12,15 @@ function getRoom() {
 	echo json_encode($m3u8);
 }
 
+function getUid() {
+	echo json_encode(session_id());
+}
+
 
 if(isset($_GET['getRoom'])) {
 	getRoom();
+}
+
+if(isset($_GET['getUid'])) {
+	getUid();
 }

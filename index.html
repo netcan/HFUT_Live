@@ -68,9 +68,17 @@
 			getRoom();
 			setInterval(getRoom, 5000);
 
-			var socket = io(location.protocol+'//'+location.hostname+ ":2120");
-			var uid = '<?php echo session_id();?>';
-			socket.on('connect', function(){socket.emit('login', uid);});
+			var socket = io("http://172.18.72.13:2120");
+
+			$.ajax({
+				url: api + "?getUid",
+				type: "GET",
+				dataType: "json",
+				success: function(uid) {
+				//	console.log(uid);
+					socket.on('connect', function(){socket.emit('login', uid);});
+				}
+			});
 
 			// socket.on('new_msg', function(msg){alert(msg);});
 
