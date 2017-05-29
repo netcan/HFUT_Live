@@ -113,7 +113,7 @@
 				type: "GET",
 				dataType: "json",
 				success: function(uid) {
-					socket.on('connect', function(){socket.emit('login', uid);});
+					socket.on('connect', function(){socket.emit('login', uid);socket.emit('enterRoom', uid, room);});
 				}
 			});
 
