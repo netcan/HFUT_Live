@@ -33,7 +33,7 @@
 						</div>
 					</div>
 
-					<hr>
+					<h4 class="ui horizontal divider header"><i class="Send icon"></i>弹幕发射区</h4>
 					<div class="ui form">
 						<div class="fields">
 							<div class="three wide field">
@@ -81,6 +81,19 @@
 				if (!results[2]) return '';
 				return decodeURIComponent(results[2].replace(/\+/g, " "));
 			}
+			function html_encode(str)
+			{
+			  var s = "";
+			  if (str.length == 0) return "";
+			  s = str.replace(/&/g, "&gt;");
+			  s = s.replace(/</g, "&lt;");
+			  s = s.replace(/>/g, "&gt;");
+			  s = s.replace(/ /g, "&nbsp;");
+			  s = s.replace(/\'/g, "&#39;");
+			  s = s.replace(/\"/g, "&quot;");
+			  s = s.replace(/\n/g, "<br>");
+			  return s;
+			}
 
 			// 登录
 			var danmu = "http://172.18.72.13";
@@ -94,7 +107,6 @@
 				type: "GET",
 				dataType: "json",
 				success: function(uid) {
-					//	console.log(uid);
 					socket.on('connect', function(){socket.emit('login', uid);});
 				}
 			});
@@ -117,10 +129,10 @@
 
 					if($('#danmuOn').checkbox("is checked")) {
 						var item={
-							img:'', //图片
-							info:  msg.content.substr(msg.content.indexOf(':') + 2, msg.content.length - msg.content.indexOf('.') - 2), //文字
+							img:'imgs/anonymous.png', //图片
+							info:  html_encode(msg.content.substr(msg.content.indexOf(':') + 2, msg.content.length - msg.content.indexOf('.') - 2)), //文字
 							href:'', //链接
-							close: false, //显示关闭按钮
+							close: true, //显示关闭按钮
 							speed: 8, //延迟,单位秒,默认8
 							bottom:0, //距离底部高度,单位px,默认随机
 							color: "#fff", //颜色,默认白色
@@ -129,7 +141,6 @@
 						$('#danmu').barrager(item);
 					}
 				}
-				console.log(msg);
 			});
 
 			if(localStorage.userName)
@@ -152,7 +163,6 @@
 			socket.on('update_online_count', function(online_stat){
 				online_stat = JSON.parse(online_stat);
 				$('#onlineUser').text(online_stat.online_count_now)
-				// console.log(online_stat);
 			});
 
 
