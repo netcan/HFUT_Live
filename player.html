@@ -172,7 +172,7 @@
 			});
 			socket.on('update_room_online_count', function(online_stat){
 				online_stat = JSON.parse(online_stat);
-				$('#roomOnlineUser').text(eval('online_stat.'+room));
+				$('#roomOnlineUser').text(online_stat[room]);
 			});
 
 			// 播放器
