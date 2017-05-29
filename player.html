@@ -20,6 +20,9 @@
 					<a class="item" id="#onlineCnt">
 						平台在线人数：<i class="user icon" id="onlineUser"></i>
 					</a>
+					<a class="item" id="#roomOnlineCnt">
+						房间在线人数：<i class="user icon" id="roomOnlineUser"></i>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -167,7 +170,10 @@
 				online_stat = JSON.parse(online_stat);
 				$('#onlineUser').text(online_stat.online_count_now)
 			});
-
+			socket.on('update_room_online_count', function(online_stat){
+				online_stat = JSON.parse(online_stat);
+				$('#roomOnlineUser').text(online_stat.room)
+			});
 
 			// 播放器
 			$('#player source').attr("src", "live/" + room + ".m3u8");
