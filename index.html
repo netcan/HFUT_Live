@@ -22,20 +22,6 @@
 			</div>
 		</div>
 
-		<div class="ui container">
-			<div class="ui raised segment">
-				<p>平台正在开发中，敬请期待！大厅每5s自动刷新一下，无需手动刷新！已实现实时预览。
-				<p>TODO
-				<ul>
-					<li>打赏</li>
-					<li>在线人数</li>
-					<li>点播</li>
-				</ul>
-			</div>
-			<div id="room" class ="ui four column grid">
-			</div>
-		</div>
-
 		<script src="node_modules/jquery/dist/jquery.min.js"></script>
 		<script src="node_modules/semantic-ui/dist/semantic.min.js"></script>
 		<script src="node_modules/socket.io-client/dist/socket.io.js"></script>
@@ -68,7 +54,7 @@
 				});
 			}
 			getRoom();
-			setInterval(getRoom, 5000);
+			setInterval(getRoom, 20000);
 
 			var socket = io("http://172.18.72.13:2120");
 
