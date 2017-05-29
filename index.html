@@ -51,7 +51,7 @@
 							content += "<div class='column'>"
 								+ "<div class='ui card'>" +
 								"<a href='player.html?room="+ a[i] + "'>"+
-								"<img class='ui image' width=260.75 height=195.56 src='live/"+ a[i] + ".jpg'  title='"+ a[i] +"'>" +
+								"<img class='ui image' width=260.75 height=195.56 src='live/"+ a[i] + ".jpg?" + new Date().getTime() + "'  title='"+ a[i] +"'>" +
 								"</a>" +
 								'<div class="content">' +
 								'<a class="header" href=player.html?room=' + a[i] + '>'+ a[i] +'</a>' +
@@ -66,7 +66,7 @@
 				});
 			}
 			getRoom();
-			setInterval(getRoom, 5000);
+			setInterval(getRoom, 3000);
 
 			var socket = io("http://172.18.72.13:2120");
 
