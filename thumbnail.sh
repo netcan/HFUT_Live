@@ -15,5 +15,5 @@ do
 		# echo ${f%.*}.jpg
 		ffmpeg -loglevel panic -y -i $f -f mjpeg -vframes 1 -vf scale=320:240 ${f%.*}.jpg &> /dev/null
 	done
-	sleep 3;
+	sleep 4;
 done
