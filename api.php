@@ -1,9 +1,7 @@
 <?php
 
 $liveDir = './live/';
-$danmuUrl = 'http://172.18.72.13:2121/';
-// $danmuUrl = 'http://127.0.0.1:2121/';
-session_start();
+$danmuUrl = $_SERVER['SERVER_ADDR'] . ':2121';
 
 function getRoom() {
 	global $liveDir;
@@ -12,10 +10,6 @@ function getRoom() {
 		$v = substr($v, strlen($liveDir),-5);
 	}
 	echo json_encode($m3u8);
-}
-
-function getUid() {
-	echo json_encode(session_id());
 }
 
 function send($channel, $content) {
@@ -41,10 +35,6 @@ function send($channel, $content) {
 
 if(isset($_GET['getRoom'])) {
 	getRoom();
-}
-
-if(isset($_GET['getUid'])) {
-	getUid();
 }
 
 if(isset($_GET['send'])) {

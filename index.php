@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -15,7 +16,7 @@
 					<a class="item" href="help.html">
 					    直播教程
 					</a>
-					<a class="item" id="#onlineCnt">
+					<a class="item">
 						平台在线人数：<i class="home icon" id="roomHolder"></i> / <i class="user icon" id="onlineUser"></i>
 					</a>
 				</div>
@@ -43,11 +44,12 @@
 						for(var i = 0; i < a.length; ++i)
 							content += "<div class='column'>"
 								+ "<div class='ui card'>" +
-								"<a href='player.html?room="+ a[i] + "'>"+
+								"<a href='player.php?room="+ a[i] + "'>"+
 								"<img class='ui image' width=260.75 height=195.56 src='live/"+ a[i] + ".jpg?" + new Date().getTime() + "'  title='"+ a[i] +"'>" +
 								"</a>" +
 								'<div class="content">' +
-								'<a class="header" href=player.html?room=' + a[i] + '>'+ a[i] +'</a>' +
+								'<a class="header" href=player.php?room=' + a[i] + '>'+ a[i] +'</a>' +
+								'<i class="unhide icon"></i><span id="' + a[i] + '">0</span>'  +
 								'</div>' +
 								"</div>" +
 								"</div>";
@@ -61,17 +63,9 @@
 			getRoom();
 			setInterval(getRoom, 20000);
 
-			var socket = io("http://172.18.72.13:2120");
+			var socket = io("<?php echo $_SERVER['SERVER_ADDR'] . ':2120'?>");
 
-			$.ajax({
-				url: api + "?getUid",
-				type: "GET",
-				dataType: "json",
-				success: function(uid) {
-				//	console.log(uid);
-					socket.on('connect', function(){socket.emit('login', uid);});
-				}
-			});
+			socket.on('connect', function(){socket.emit('login', "<?php echo session_id(); ?>");});
 
 			// socket.on('new_msg', function(msg){alert(msg);});
 
@@ -79,6 +73,15 @@
 				online_stat = JSON.parse(online_stat);
 				$('#onlineUser').text(online_stat.online_count_now)
 				// console.log(online_stat);
+			});
+
+			socket.on('update_room_online_count', function(online_room_stat){
+				online_room_stat = JSON.parse(online_room_stat);
+				for(var room in online_room_stat) {
+					console.log(online_room_stat[room]);
+					$('#' + room).text(online_room_stat[room]);
+				}
+				// $('#roomOnlineUser').text(online_stat[room]);
 			});
 
 		</script>

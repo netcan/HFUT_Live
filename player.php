@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -17,18 +18,15 @@
 					<a class="item" href="help.html">
 					    直播教程
 					</a>
-					<a class="item" id="#onlineCnt">
+					<a class="item">
 						平台在线人数：<i class="user icon" id="onlineUser"></i>
-					</a>
-					<a class="item" id="#roomOnlineCnt">
-						房间在线人数：<i class="user icon" id="roomOnlineUser"></i>
 					</a>
 				</div>
 			</div>
 		</div>
 
 		<div class="ui container">
-			<h2>当前房间：<span id="curRoom"></span></h2>
+		<h2>当前房间（<i class="unhide icon"></i><span id="roomOnlineUser">0</span>）：<span id="curRoom"></span></h2>
 			<div class="ui grid">
 				<div class="twelve wide column">
 					<div class="row">
@@ -78,15 +76,6 @@
 		<script src="js/jquery.barrager.js"></script>
 
 		<script>
-			function getParameterByName(name, url) {
-				if (!url) url = window.location.href;
-				name = name.replace(/[\[\]]/g, "\\$&");
-				var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-				results = regex.exec(url);
-				if (!results) return null;
-				if (!results[2]) return '';
-				return decodeURIComponent(results[2].replace(/\+/g, " "));
-			}
 			function html_encode(str)
 			{
 			  var s = "";
@@ -102,20 +91,17 @@
 			}
 
 			// 登录
-			var danmu = "http://172.18.72.13";
-			// var danmu = "http://127.0.0.1";
-			var socket = io(danmu + ":2120");
+			var danmuUrl = "<?php echo $_SERVER['SERVER_ADDR'] . ':2120'?>";
+			var socket = io(danmuUrl);
 			var api = "api.php";
-			var room = getParameterByName('room');
+			var room = "<?php echo $_GET['room'] ?>";
 
-			$.ajax({
-				url: api + "?getUid",
-				type: "GET",
-				dataType: "json",
-				success: function(uid) {
-					socket.on('connect', function(){socket.emit('login', uid);socket.emit('enterRoom', uid, room);});
-				}
-			});
+			socket.on('connect', function(){socket.emit('login', "<?php echo session_id(); ?>");});
+			socket.on('connect', function(){socket.emit('enterRoom', "<?php echo session_id(); ?>", room);});
+
+			setInterval(function() {
+				socket.on('connect', function(){socket.emit('enterRoom', "<?php echo session_id(); ?>", room);});
+			}, 5000); // 每5秒刷新一下房间信息
 
 			// 弹幕事件
 			$('#msgScroll').checkbox("check");
@@ -170,7 +156,9 @@
 				online_stat = JSON.parse(online_stat);
 				$('#onlineUser').text(online_stat.online_count_now)
 			});
+
 			socket.on('update_room_online_count', function(online_stat){
+				console.log(online_stat);
 				online_stat = JSON.parse(online_stat);
 				$('#roomOnlineUser').text(online_stat[room]);
 			});
