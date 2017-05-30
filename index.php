@@ -61,7 +61,7 @@
 				});
 			}
 			getRoom();
-			setInterval(getRoom, 20000);
+			setInterval(getRoom, 20000); // 20秒刷新一次
 
 			var socket = io("<?php echo $_SERVER['SERVER_ADDR'] . ':2120'?>");
 

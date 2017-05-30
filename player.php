@@ -97,11 +97,8 @@
 			var room = "<?php echo $_GET['room'] ?>";
 
 			socket.on('connect', function(){socket.emit('login', "<?php echo session_id(); ?>");});
+			// 一个人只去一个房间
 			socket.on('connect', function(){socket.emit('enterRoom', "<?php echo session_id(); ?>", room);});
-
-			setInterval(function() {
-				socket.on('connect', function(){socket.emit('enterRoom', "<?php echo session_id(); ?>", room);});
-			}, 5000); // 每5秒刷新一下房间信息
 
 			// 弹幕事件
 			$('#msgScroll').checkbox("check");
@@ -158,7 +155,7 @@
 			});
 
 			socket.on('update_room_online_count', function(online_stat){
-				console.log(online_stat);
+				// console.log(online_stat);
 				online_stat = JSON.parse(online_stat);
 				$('#roomOnlineUser').text(online_stat[room]);
 			});
