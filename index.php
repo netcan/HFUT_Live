@@ -31,7 +31,8 @@
 				</ul>
 				目前计划：
 				<ul>
-					<li>实现视频内弹幕</li>
+					<li><s>实现视频内弹幕</s></li>
+					<li>点播/转播</li>
 				</ul>
 			</div>
 			<div id="room" class ="ui four column grid">
