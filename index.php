@@ -9,7 +9,7 @@
 
 		<div class="ui white massive main menu">
 			<div class="ui container">
-				<a href="/" class="header item">
+				<a href="./" class="header item">
 					HFUT直播平台
 				</a>
 				<div class="right menu">
@@ -24,6 +24,16 @@
 		</div>
 
 		<div class="ui container">
+			<div class="ui segment">
+				重大更新：
+				<ul>
+					<li>大厅即可接收保存所有房间信息，进入对应房间即可看到收到的历史信息。</li>
+				</ul>
+				目前计划：
+				<ul>
+					<li>实现视频内弹幕</li>
+				</ul>
+			</div>
 			<div id="room" class ="ui four column grid">
 			</div>
 		</div>
@@ -67,7 +77,14 @@
 
 			socket.on('connect', function(){socket.emit('login', "<?php echo session_id(); ?>");});
 
-			// socket.on('new_msg', function(msg){alert(msg);});
+			socket.on('new_msg', function(msg){
+				// alert(msg);
+				msg = JSON.parse(msg);
+				if(localStorage.getItem(msg["channel"]))
+					localStorage.setItem(msg["channel"], localStorage.getItem(msg["channel"]) + '<p>' + msg.datetime + '<br>' + msg.content); // 保存聊天记录
+				else
+					localStorage.setItem(msg["channel"], '<p>' + msg.datetime + '<br>' + msg.content); // 保存聊天记录
+			});
 
 			socket.on('update_online_count', function(online_stat){
 				online_stat = JSON.parse(online_stat);

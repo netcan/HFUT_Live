@@ -11,7 +11,7 @@
 	<body style="background-color: #CCC4C2">
 		<div class="ui white massive main menu">
 			<div class="ui container">
-				<a href="/" class="header item">
+				<a href="./" class="header item">
 					HFUT直播平台
 				</a>
 				<div class="right menu">
@@ -129,6 +129,11 @@
 						}
 						$('#danmu').barrager(item);
 					}
+				} else {
+					if(localStorage.getItem(msg["channel"]))
+						localStorage.setItem(msg["channel"], localStorage.getItem(msg["channel"]) + '<p>' + msg.datetime + '<br>' + msg.content); // 保存聊天记录
+					else
+						localStorage.setItem(msg["channel"], '<p>' + msg.datetime + '<br>' + msg.content); // 保存聊天记录
 				}
 			});
 
